@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        table {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Student Management System</h2>
+       
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Email ID</th>
+                    <th>Address</th>
+                    <th>Phone Number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="studentTable">
+                <!-- Student data will be appended here -->
+            </tbody>
+        </table>
+    </div>
+    <form id="studentForm">
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <input type="text" class="form-control" id="stud_id" placeholder="Student ID" disabled>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" class="form-control" id="name" placeholder="Name">
+            </div>
+            <div class="form-group col-md-2">
+                <input type="email" class="form-control" id="email_id" placeholder="Email ID">
+            </div>
+            <div class="form-group col-md-3">
+                <input type="text" class="form-control" id="address" placeholder="Address">
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" class="form-control" id="phone_no" placeholder="Phone Number">
+            </div>
+            <div class="form-group col-md-1">
+                <button type="button" class="btn btn-success" id="addButton">Add</button>
+                <button type="button" class="btn btn-danger" data-id="""deleteButton">Delete</button>
+            </div>
+        </div>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Fetch and display students data when the page loads
+            fetchStudents();
+
+            $('#addButton').click(function() {
+                let name = $('#name').val();
+                let email_id = $('#email_id').val();
+                let address = $('#address').val();
+                let phone_no = $('#phone_no').val();
+
+                if (name && email_id && address && phone_no) {
+                    $.ajax({
+                        url: 'add_student.php',
+                        type: 'POST',
+                        data: { name: name, email_id: email_id, address: address, phone_no: phone_no },
+                        success: function(response) {
+                            fetchStudents();
+                            $('#studentForm')[0].reset();
+                        }
+                    });
+                }
+            });
+
+            $(document).on('click', '.delete-btn', function() {
+                let id = $(this).data('id');
+                $.ajax({
+                    url: 'delete_student.php',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function(response) {
+                        fetchStudents();
+                    }
+                });
+            });
+
+            function fetchStudents() {
+                $.ajax({
+                    url: 'fetch_students.php',
+                    type: 'GET',
+                    success: function(response) {
+                        $('#studentTable').html(response);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
