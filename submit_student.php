@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Redirect after successful submission
         echo '<script>alert("Data inserted successfully!!!");</script>'; 
-        echo '<script>window.location.href="new_task.php";</script>';
+        echo '<script>window.location.href="student_management.php";</script>';
         exit;
     } else {
         $errors['database'] = $connection->error;

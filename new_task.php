@@ -4,17 +4,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Oswald:300,400,500|PT+Sans+Narrow:400,700|Play:400,700|Ubuntu+Condensed&display=swap&subset=cyrillic');
+
+
+
+ul, li {
+list-style: none;
+}
+
+
+.breadcrumb {
+display: flex;
+border-radius: 10px;
+margin-left:30px;
+margin-top:30px;
+top: 50%;
+width: 100%;
+height: 40px;
+transform: translateY(-50%);
+z-index: 1;
+}
+
+
+.breadcrumb__item {
+height: 100%;
+background-color: white;
+color: #252525;
+font-family: 'Oswald', sans-serif;
+border-radius: 7px;
+letter-spacing: 1px;
+transition: all 0.3s ease;
+text-transform: uppercase;
+position: relative;
+display: inline-flex;
+justify-content: center;
+align-items: center;
+font-size: 16px;
+transform: skew(-21deg);
+box-shadow: 0 2px 5px rgba(0,0,0,0.26);
+margin: 5px;
+padding: 0 40px;
+cursor: pointer;
+}
+
+
+.breadcrumb__item:hover {
+background: #490099;
+color: #FFF;
+}
+
+
+.breadcrumb__inner {
+display: flex;
+flex-direction: column;
+margin: auto;
+z-index: 2;
+transform: skew(21deg);  
+}
+
+.breadcrumb__title {
+font-size: 16px;
+text-overflow: ellipsis;  
+overflow: hidden;
+white-space: nowrap;  
+}
+
+
+@media all and (max-width: 1000px) {
+.breadcrumb {
+height: 35px;
+}
+
+.breadcrumb__title{
+font-size: 11px;
+}
+.breadcrumb__item {
+padding: 0 30px;
+}
+}
+
+@media all and (max-width: 710px) {
+.breadcrumb {
+height: 30px;
+}
+.breadcrumb__item {
+padding: 0 20px;
+}
+
+}
+    </style>
     <title>Student details</title>
 </head>
 <body>
-    <header>
-    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">new Student</li>
-  </ol>
-</nav>
-    </header>
+<div class="container">
+<ul class="breadcrumb">
+<li class="breadcrumb__item breadcrumb__item-firstChild">
+<span class="breadcrumb__inner">
+<span class="breadcrumb__title"><a  style="text-decoration: none; color: inherit;" href="student_management.php">Home </a></span>
+</span>
+</li>
+<li class="breadcrumb__item">
+<span class="breadcrumb__inner">
+<span class="breadcrumb__title">New Student</span>
+</span>
+</li>
+
+
+</ul>
+</div>
 
     <div class="container">
         <h1>Student Details</h1>
@@ -143,53 +241,11 @@
         });
     </script>
 
-    <div class="container my-5">
-    <?php
-    $user = 'root';
-    $pass = '';
-    $db = 'students';
+ <div class="container my-5">
 
-    $connection = new mysqli('localhost', $user, $pass, $db) or die("Database not connected");
+ 
 
-    // Fetch student details
-    $sql_students = "SELECT * FROM students";
-    $result_students = $connection->query($sql_students);
-
-    // Fetch education details
-    $sql_education = "SELECT * FROM eductions";
-    $result_education = $connection->query($sql_education);
-    ?>
-
-    <h2>Student Management System</h2>
-     
-    <br>
-    <h3>Student Details</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Student ID</th>
-                <th>Name</th>
-                <th>Email ID</th>
-                <th>Address</th>
-                <th>Phone Number</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php while ($row = $result_students->fetch_assoc()) { ?>
-            <tr>
-                <td><?php echo $row['stud_id']; ?></td>
-                <td><?php echo $row['name']; ?></td>
-                <td><?php echo $row['email_id']; ?></td>
-                <td><?php echo $row['address']; ?></td>
-                <td><?php echo $row['phone_no']; ?></td>
-                <td>
-                    <a class='btn btn-primary btn-sm' href='edit.php?id=<?php echo $row['stud_id']; ?>'>Update</a>
-                    <a class='btn btn-danger btn-sm' href='delete.php?id=<?php echo $row['stud_id']; ?>'>Delete</a>
-                </td>
-            </tr>
-            <?php } ?>
-        </tbody>
-    </table>
+   
+    
 </body>
 </html>
